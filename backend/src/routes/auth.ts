@@ -32,15 +32,23 @@ router.post('/login', async (req: Request, res: Response): Promise<any> => {
       return res.status(401).json(ApiResponse.error('INVALID_CREDENTIALS', 'Email o contraseña incorrectos'));
     }
 
+    let permissions = [];
+    try {
+      permissions = JSON.parse(user.permissions || '[]');
+    } catch (e) {
+      console.error('Error parsing user permissions:', e);
+      permissions = [];
+    }
+
     const token = jwt.sign(
       { 
         id: user.id, 
         email: user.email, 
         role: user.role,
-        permissions: JSON.parse(user.permissions),
+        permissions,
         skin: user.skin
       }, 
-      process.env.JWT_SECRET || 'supersecret', 
+      SECRET, 
       { expiresIn: '24h' }
     );
 
@@ -52,7 +60,7 @@ router.post('/login', async (req: Request, res: Response): Promise<any> => {
         name: user.name, 
         role: user.role,
         skin: user.skin,
-        permissions: JSON.parse(user.permissions)
+        permissions
       } 
     }));
   } catch (error) {
@@ -72,7 +80,9 @@ router.get('/connect/:platform', async (req: Request, res: Response, next: NextF
     }
 
     const config = await getPlatformConfig(platform as string);
-    const redirectUri = `http://localhost:3001/api/auth/callback/${platform}`;
+    const protocol = req.headers['x-forwarded-proto'] || 'http';
+    const host = req.headers.host;
+    const redirectUri = `${protocol}://${host}/api/auth/callback/${platform}`;
     
     // Pasamos companyId en el parámetro 'state' de OAuth para recuperarlo en el callback
     const state = JSON.stringify({ companyId });
@@ -98,7 +108,9 @@ router.get('/callback/:platform', async (req: Request, res: Response, next: Next
   try {
     const { companyId } = JSON.parse(state as string);
     const config = await getPlatformConfig(platform as string);
-    const redirectUri = `http://localhost:3001/api/auth/callback/${platform}`;
+    const protocol = req.headers['x-forwarded-proto'] || 'http';
+    const host = req.headers.host;
+    const redirectUri = `${protocol}://${host}/api/auth/callback/${platform}`;
 
     const tokens = await exchangeCodeForTokens(
       platform as 'google' | 'meta', 
@@ -122,7 +134,7 @@ router.get('/callback/:platform', async (req: Request, res: Response, next: Next
     );
 
     // Redirigir de vuelta al frontend con éxito
-    res.redirect(`http://localhost:5173/integrations?status=success&companyId=${companyId}`);
+    res.redirect(`/integrations?status=success&companyId=${companyId}`);
   } catch (error) {
     next(error);
   }

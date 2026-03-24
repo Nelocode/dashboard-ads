@@ -46,4 +46,4 @@ EXPOSE 3001
 
 # Ejecutar desde la carpeta del backend
 WORKDIR /app/backend
-CMD ["npm", "start"]
+CMD ["sh", "-c", "npx prisma db push && npm start"]
