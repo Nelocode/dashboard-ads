@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id          String    @id @default(uuid())
+  email       String    @unique
+  password    String
+  name        String?
+  role        String    @default("USER") // ADMIN or USER
+  permissions String    @default("[]")   // JSON array of strings: e.g. ["view_dashboard", "manage_ads"]
+  skin        String    @default("default") // current theme name
+  userCompanies UserCompany[]
+  createdAt   DateTime  @default(now())
+}
+
+model UserCompany {
+  userId    String
+  companyId String
+  user      User    @relation(fields: [userId], references: [id])
+  company   Company @relation(fields: [companyId], references: [id])
+  @@id([userId, companyId])
+}
+
+model Company {
+  id        String      @id @default(uuid())
+  name      String
+  logo      String?
+  accounts  AdAccount[]
+  userCompanies UserCompany[]
+  createdAt DateTime    @default(now())
+}
+
+model PlatformConfig {
+  id             String  @id @default(uuid())
+  platform       String  @unique // meta or google
+  clientId       String
+  clientSecret   String
+  developerToken String? // Solo para Google Ads
+  updatedAt      DateTime @updatedAt
+}
+
+model AdAccount {
+  id           String   @id @default(uuid())
+  platform     String   // meta or google
+  accountId    String   @unique
+  accountName  String
+  accessToken  String
+  refreshToken String?
+  companyId    String
+  company      Company  @relation(fields: [companyId], references: [id])
+  campaigns    CampaignCache[]
+  updatedAt    DateTime @updatedAt
+}
+
+model CampaignCache {
+  id           String   @id @default(uuid())
+  platform     String
+  externalId   String   @unique
+  name         String
+  status       String
+  dailyBudget  Float
+  spend        Float
+  clicks       Int
+  ctr          Float
+  conversions  Int
+  cpa          Float
+  date         DateTime
+  adAccountId  String
+  adAccount    AdAccount @relation(fields: [adAccountId], references: [id])
+  updatedAt    DateTime @updatedAt
+}
+
+model AiConfig {
+  id          String   @id @default(uuid())
+  provider    String   @unique @default("ollama") // ollama, openai, gemini
+  apiKey      String?
+  modelName   String?  // qwen2.5-coder, gpt-4o, gemini-1.5-pro
+  isActive    Boolean  @default(true)
+  updatedAt   DateTime @updatedAt
+}
