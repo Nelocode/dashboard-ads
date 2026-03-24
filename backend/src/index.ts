@@ -37,10 +37,12 @@ app.use('/api/users', userRoutes);
 const frontendPath = path.join(__dirname, '../../dist');
 app.use(express.static(frontendPath));
 
-// Webhook/SPA routing fallback
-app.get('/:path*', (req, res) => {
-  if (!req.path.startsWith('/api')) {
+// Webhook/SPA routing fallback using middleware to avoid Path-to-Regexp errors in Express 5
+app.use((req, res, next) => {
+  if (req.method === 'GET' && !req.path.startsWith('/api') && !req.path.includes('.')) {
     res.sendFile(path.join(frontendPath, 'index.html'));
+  } else {
+    next();
   }
 });
 
