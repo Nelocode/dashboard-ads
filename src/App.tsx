@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
-import { RefreshCw, AlertCircle } from 'lucide-react';
 import { Sidebar } from './components/layout/Sidebar';
 import { Header } from './components/layout/Header';
 import { KpiCards } from './components/dashboard/KpiCards';

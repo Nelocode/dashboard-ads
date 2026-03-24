@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Share2, CheckCircle2, Building2, ChevronRight, Zap, Settings2, Globe, ShieldCheck } from 'lucide-react';
+import { Share2, CheckCircle2, Building2, Zap, Settings2, Globe, ShieldCheck } from 'lucide-react';
 import api from '../lib/api';
 
 export const IntegrationsPage: React.FC = () => {
