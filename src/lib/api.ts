@@ -2,7 +2,7 @@ import axios from 'axios';
 import type { Campaign, KpiData } from '../data/mockData';
 
 const api = axios.create({
-  baseURL: 'http://127.0.0.1:3001/api',
+  baseURL: '/api',
 });
 
 // Interceptor to handle standardized response structure
@@ -36,9 +36,34 @@ export interface AiConfig {
   isActive: boolean;
 }
 
+export interface User {
+  id: string;
+  email: string;
+  name?: string;
+  role: 'ADMIN' | 'USER';
+  permissions: string[];
+  skin: string;
+}
+
 export const fetchAiConfig = (): Promise<AiConfig> => api.get('/config/ai');
 
 export const updateAiConfig = (config: Partial<AiConfig>): Promise<AiConfig> => 
   api.post('/config/ai', config);
+
+// User Management
+export const getUsers = (): Promise<User[]> => api.get('/users');
+
+export const createUser = (userData: Partial<User> & { password?: string }): Promise<User> => 
+  api.post('/users', userData);
+
+export const updateUser = (id: string, userData: Partial<User> & { password?: string }): Promise<User> => 
+  api.put(`/users/${id}`, userData);
+
+export const deleteUser = (id: string): Promise<any> => api.delete(`/users/${id}`);
+
+// Company & Accounts
+export const getCompanyDetails = (id: string): Promise<any> => api.get(`/companies/${id}`);
+
+export const deleteAccount = (id: string): Promise<any> => api.delete(`/companies/accounts/${id}`);
 
 export default api;

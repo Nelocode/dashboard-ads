@@ -43,4 +43,16 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
+// Delete an ad account
+router.delete('/accounts/:id', async (req, res, next) => {
+  try {
+    await prisma.adAccount.delete({
+      where: { id: req.params.id }
+    });
+    res.json(ApiResponse.success({ message: 'Cuenta eliminada con éxito' }));
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default router;

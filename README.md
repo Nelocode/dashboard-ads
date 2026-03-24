@@ -1,73 +1,38 @@
-# React + TypeScript + Vite
+# Ads Dashboard Premium 🚀
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Plataforma inteligente y de alto rendimiento para la gestión y análisis de campañas publicitarias en Meta y Google Ads. Diseñada para un uso interno robusto, con capacidades de análisis por IA y una interfaz ultra-premium.
 
-Currently, two official plugins are available:
+## ✨ Características Principales
+- **Análisis con IA**: Integración con Ollama (Local) y modelos en la nube para análisis profundo de métricas.
+- **Gestión Multi-Empresa**: Administra múltiples cuentas publicitarias y empresas desde un solo panel.
+- **User Management CRUD**: Sistema completo de administración de usuarios con roles y permisos dinámicos.
+- **Interfaz Premium**: Diseño basado en cristalería, animaciones suaves y soporte para múltiples skins (Modo Noche, Midnight, etc.).
+- **Sincronización en Tiempo Real**: Backend en Node.js con base de datos SQLite persistente.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🛠️ Stack Tecnológico
+- **Frontend**: React 19, Vite, Tailwind CSS, Framer Motion, Lucide React.
+- **Backend**: Node.js, Express, TypeScript, Prisma ORM.
+- **Base de Datos**: SQLite (almacenamiento local persistente).
+- **Despliegue**: Docker, Easypanel.
 
-## React Compiler
+## 🚀 Inicio Rápido
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Desarrollo Local (Frontend + Backend separado)
+1. **Instalar dependencias**:
+   ```bash
+   npm install
+   cd backend && npm install
+   ```
+2. **Configurar Base de Datos**:
+   ```bash
+   cd backend && npx prisma generate && npx prisma db push
+   ```
+3. **Ejecutar**:
+   - Backend: `cd backend && npm run dev`
+   - Frontend: `npm run dev`
 
-## Expanding the ESLint configuration
+### Despliegue con Docker
+Para desplegar en producción (Hostinger/Easypanel), consulta la **[Guía de Despliegue (DEPLOYS.md)](./DEPLOYS.md)**.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+© 2026 Ads Dashboard Project.

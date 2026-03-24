@@ -160,6 +160,9 @@ function DashboardContent() {
           toggleSidebar={() => setIsSidebarCollapsed(!isSidebarCollapsed)} 
           onLogout={handleLogout}
           userName={user?.name}
+          userEmail={user?.email}
+          userRole={user?.role}
+          setActiveTab={setActiveTab}
         />
         
         <main className="flex-1 overflow-y-auto w-full p-4 md:p-6 lg:p-8">

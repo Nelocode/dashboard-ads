@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import path from 'path';
 import dotenv from 'dotenv';
 import { PrismaClient } from '@prisma/client';
 import prisma from './lib/prisma';
@@ -23,12 +24,25 @@ import adsRoutes from './routes/ads';
 import aiRoutes from './routes/ai';
 import configRoutes from './routes/config';
 import companiesRoutes from './routes/companies';
+import userRoutes from './routes/users';
 
 app.use('/api/auth', authRoutes);
 app.use('/api/ads', adsRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/config', configRoutes);
 app.use('/api/companies', companiesRoutes);
+app.use('/api/users', userRoutes);
+
+// Serve static files from the frontend
+const frontendPath = path.join(__dirname, '../../dist');
+app.use(express.static(frontendPath));
+
+// Webhook/SPA routing fallback
+app.get('*', (req, res) => {
+  if (!req.path.startsWith('/api')) {
+    res.sendFile(path.join(frontendPath, 'index.html'));
+  }
+});
 
 // Global Error Handler (must be after routes)
 app.use(errorHandler);
