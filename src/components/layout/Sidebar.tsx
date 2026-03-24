@@ -36,17 +36,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, activeTab, setAct
         isCollapsed ? 'w-20' : 'w-64'
       }`}
     >
-      <div className="h-16 flex items-center justify-center border-b border-[var(--border-color)] px-4">
+      <div className="h-20 flex items-center justify-center border-b border-[var(--border-color)] px-4">
         {isCollapsed ? (
-          <div className="w-10 h-10 bg-brand rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-brand/20">
-            D
-          </div>
+          <img src="/logo.png" className="w-12 h-12 object-contain" alt="Logo" />
         ) : (
-          <div className="flex items-center space-x-3 w-full">
-            <div className="w-8 h-8 bg-brand rounded-lg flex items-center justify-center text-white font-bold shrink-0 shadow-md shadow-brand/20">
-              D
-            </div>
-            <span className="text-xl font-bold text-[var(--text-main)] truncate">DashAds</span>
+          <div className="flex flex-col items-center justify-center w-full py-4">
+            <img src="/logo.png" className="h-12 w-auto object-contain mb-1" alt="7SecMedia" />
           </div>
         )}
       </div>
@@ -90,11 +85,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, activeTab, setAct
       </nav>
       
       {!isCollapsed && (
-        <div className="p-4 border-t border-[var(--border-color)] flex items-center justify-between text-[10px] text-[var(--text-muted)]">
-          <span>v1.5 Enterprise</span>
-          <div className="flex gap-2">
-            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
-            <span>Sistema Activo</span>
+        <div className="p-4 border-t border-[var(--border-color)] flex flex-col gap-2 text-[10px] text-[var(--text-muted)]">
+          <div className="flex items-center justify-between">
+            <span>v1.5 Enterprise</span>
+            <div className="flex gap-2">
+              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
+              <span>Sistema Activo</span>
+            </div>
+          </div>
+          <div className="text-center italic opacity-75">
+            creado con amor ❤️ para 7SecMedia
           </div>
         </div>
       )}
