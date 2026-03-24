@@ -38,7 +38,7 @@ const frontendPath = path.join(__dirname, '../../dist');
 app.use(express.static(frontendPath));
 
 // Webhook/SPA routing fallback
-app.get('/*', (req, res) => {
+app.get('/:path*', (req, res) => {
   if (!req.path.startsWith('/api')) {
     res.sendFile(path.join(frontendPath, 'index.html'));
   }
