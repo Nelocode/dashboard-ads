@@ -16,7 +16,10 @@ export const UsersPage: React.FC = () => {
           <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Gestión de Usuarios</h1>
           <p className="text-sm text-gray-500 mt-1">Administra accesos, roles y permisos granulares por integrante.</p>
         </div>
-        <button className="bg-brand text-white px-5 py-2.5 rounded-xl font-bold flex items-center shadow-lg shadow-brand/20 hover:scale-[1.02] transition-all">
+        <button
+          onClick={() => alert('Función de creación de usuario en desarrollo.')}
+          className="bg-brand text-white px-5 py-2.5 rounded-xl font-bold flex items-center shadow-lg shadow-brand/20 hover:scale-[1.02] transition-all"
+        >
           <UserPlus className="w-4 h-4 mr-2" />
           Crear Usuario
         </button>
@@ -99,9 +102,9 @@ export const UsersPage: React.FC = () => {
                 </td>
                 <td className="px-6 py-4">
                   <div className="flex items-center space-x-2">
-                    <button className="p-2 text-gray-400 hover:text-brand hover:bg-brand/5 rounded-lg transition-all"><Edit2 className="w-4 h-4"/></button>
-                    <button className="p-2 text-gray-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"><Trash2 className="w-4 h-4"/></button>
-                    <button className="p-2 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all"><MoreVertical className="w-4 h-4"/></button>
+                    <button onClick={() => alert('Editar usuario')} className="p-2 text-gray-400 hover:text-brand hover:bg-brand/5 rounded-lg transition-all"><Edit2 className="w-4 h-4"/></button>
+                    <button onClick={() => alert('Eliminar usuario')} className="p-2 text-gray-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"><Trash2 className="w-4 h-4"/></button>
+                    <button onClick={() => alert('Más opciones')} className="p-2 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all"><MoreVertical className="w-4 h-4"/></button>
                   </div>
                 </td>
               </tr>

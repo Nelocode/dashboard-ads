@@ -41,10 +41,10 @@ export const Header: React.FC<HeaderProps> = ({ toggleSidebar, onLogout, userNam
             <div className="px-4 py-2 border-b border-gray-50 mb-1">
               <p className="text-xs font-bold text-gray-400 uppercase tracking-tight">Cuenta Personal</p>
             </div>
-            <button className="w-full text-left px-4 py-2.5 text-sm text-gray-600 hover:bg-brand/5 hover:text-brand flex items-center transition-colors">
+            <button onClick={() => alert('Mi Perfil')} className="w-full text-left px-4 py-2.5 text-sm text-gray-600 hover:bg-brand/5 hover:text-brand flex items-center transition-colors">
               <User className="w-4 h-4 mr-2.5 opacity-70"/> Mi Perfil
             </button>
-            <button className="w-full text-left px-4 py-2.5 text-sm text-gray-600 hover:bg-brand/5 hover:text-brand flex items-center transition-colors">
+            <button onClick={() => alert('Ajustes')} className="w-full text-left px-4 py-2.5 text-sm text-gray-600 hover:bg-brand/5 hover:text-brand flex items-center transition-colors">
               <Settings className="w-4 h-4 mr-2.5 opacity-70"/> Ajustes
             </button>
             <div className="border-t border-gray-50 my-1.5 mx-2"></div>

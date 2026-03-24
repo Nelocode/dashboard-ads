@@ -86,7 +86,10 @@ export const CompaniesPage: React.FC = () => {
                 <h3 className="text-lg font-bold text-gray-900 group-hover:text-indigo-600 transition-colors">{company.name}</h3>
               </div>
               
-              <button className="mt-4 flex items-center text-sm font-bold text-gray-400 group-hover:text-indigo-600 transition-colors">
+              <button
+                onClick={() => alert(`Administrando cuentas para: ${company.name}`)}
+                className="mt-4 flex items-center text-sm font-bold text-gray-400 group-hover:text-indigo-600 transition-colors"
+              >
                 Administrar Cuentas
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </button>
