@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Shield, UserPlus, Trash2, Edit2, Lock, X, Check, Copy, Key, Sparkles } from 'lucide-react';
+import { Users, Shield, UserPlus, Trash2, Edit2, Lock, X, Check, Copy, Key, Sparkles, AlertCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getUsers, createUser, updateUser, deleteUser, type User } from '../lib/api';
 import toast from 'react-hot-toast';
