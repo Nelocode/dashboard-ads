@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Lock, Check, X, ShieldAlert, KeyRound, Eye, EyeOff, Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Check, KeyRound, Eye, EyeOff, Sparkles } from 'lucide-react';
 import { changePassword } from '../../lib/api';
 import toast from 'react-hot-toast';
 

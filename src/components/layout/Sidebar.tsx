@@ -30,7 +30,7 @@ const navItems = [
   { id: 'settings', icon: Settings, label: 'Ajustes API', permission: 'manage_config' },
 ];
 
-export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, activeTab, setActiveTab }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, activeTab, setActiveTab, user }) => {
   return (
     <div
       className={`bg-[var(--bg-card)] border-r border-[var(--border-color)] h-screen transition-all duration-300 flex flex-col ${
