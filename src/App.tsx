@@ -96,9 +96,9 @@ function DashboardContent() {
       case 'companies':
         return <CompaniesPage />; // Changed from CompanyManagement to CompaniesPage
       case 'users':
-        return user?.permissions?.includes('manage_users')
+        return (user?.role === 'ADMIN' || user?.permissions?.includes('manage_users'))
           ? <UsersPage />
-          : <div className="p-10 card-premium text-center">Sin permisos para gestionar usuarios</div>;
+          : <div className="p-10 card-premium text-center font-bold text-rose-500">Sin permisos para gestionar usuarios</div>;
       case 'skins':
         return <SkinsPage />;
       case 'settings':

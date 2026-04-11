@@ -32,12 +32,19 @@ router.get('/', async (req: Request, res: Response) => {
   }
 });
 
+const generatePassword = (length = 10) => {
+  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
+  return Array.from({ length }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+};
+
 // POST create user
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', async (req: Request, res: Response): Promise<any> => {
   const { email, password, name, role, permissions } = req.body;
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const rawPassword = password || generatePassword();
+    const hashedPassword = await bcrypt.hash(rawPassword, 10);
+    
     const user = await prisma.user.create({
       data: {
         email,
@@ -45,7 +52,8 @@ router.post('/', async (req: Request, res: Response) => {
         name,
         role: role || 'USER',
         permissions: JSON.stringify(permissions || []),
-        skin: 'default'
+        skin: 'default',
+        requiresPasswordChange: true // Siempre requiere cambio inicial si es creado por admin
       }
     });
 
@@ -53,7 +61,8 @@ router.post('/', async (req: Request, res: Response) => {
       id: user.id,
       email: user.email,
       name: user.name,
-      role: user.role
+      role: user.role,
+      generatedPassword: rawPassword // Devolvemos la contraseña plana solo esta vez para el admin
     }));
   } catch (error: any) {
     if (error.code === 'P2002') {
