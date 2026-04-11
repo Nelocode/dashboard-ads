@@ -94,7 +94,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, activeTab, setAct
             </div>
           </div>
           <div className="text-center italic opacity-75">
-            creado con amor ❤️ para 7SecMedia
+            creado con amor ❤️ por 7SecMedia
           </div>
         </div>
       )}
