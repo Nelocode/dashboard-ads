@@ -14,19 +14,20 @@ interface SidebarProps {
   isCollapsed: boolean;
   activeTab: string;
   setActiveTab: (tab: string) => void;
+  user: any;
 }
 
 const navItems = [
   { type: 'header', label: 'Análisis' },
-  { id: 'dashboard', icon: LayoutDashboard, label: 'Resumen Global' },
-  { id: 'meta', icon: PieChart, label: 'Meta Ads' },
-  { id: 'google', icon: Target, label: 'Google Ads' },
+  { id: 'dashboard', icon: LayoutDashboard, label: 'Resumen Global', permission: 'view_dashboard' },
+  { id: 'meta', icon: PieChart, label: 'Meta Ads', permission: 'manage_ads' },
+  { id: 'google', icon: Target, label: 'Google Ads', permission: 'manage_ads' },
   { type: 'header', label: 'Gestión' },
-  { id: 'companies', icon: Building2, label: 'Empresas' },
-  { id: 'users', icon: Users, label: 'Usuarios' },
+  { id: 'companies', icon: Building2, label: 'Empresas', permission: 'manage_companies' },
+  { id: 'users', icon: Users, label: 'Usuarios', permission: 'manage_users', adminOnly: true },
   { id: 'skins', icon: Palette, label: 'Skins' },
-  { id: 'integrations', icon: Share2, label: 'Integraciones' },
-  { id: 'settings', icon: Settings, label: 'Ajustes API' },
+  { id: 'integrations', icon: Share2, label: 'Integraciones', permission: 'manage_config' },
+  { id: 'settings', icon: Settings, label: 'Ajustes API', permission: 'manage_config' },
 ];
 
 export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, activeTab, setActiveTab }) => {
@@ -60,6 +61,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, activeTab, setAct
               </div>
             );
           }
+
+          // RBAC Check
+          if (user?.role !== 'ADMIN') {
+            if (item.adminOnly) return null;
+            if (item.permission && !user?.permissions?.includes(item.permission)) return null;
+          }
+
           const Icon = item.icon!;
           return (
             <button

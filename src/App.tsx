@@ -20,6 +20,7 @@ import { SkinsPage } from './pages/SkinsPage';
 import { AiSettingsPage } from './pages/AiSettingsPage';
 import { CompaniesPage } from './pages/CompaniesPage';
 import { QuickGuide } from './components/ui/QuickGuide';
+import { ForcePasswordChangeModal } from './components/auth/ForcePasswordChangeModal';
 import { useTheme } from './contexts/ThemeContext';
 import { Toaster } from 'react-hot-toast';
 
@@ -147,12 +148,18 @@ function DashboardContent() {
     }
   };
 
+  const handlePasswordResetSuccess = (updatedUser: any) => {
+    setUser(updatedUser);
+    localStorage.setItem('dashads-user', JSON.stringify(updatedUser));
+  };
+
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden font-sans">
       <Sidebar 
         isCollapsed={isSidebarCollapsed} 
         activeTab={activeTab} 
         setActiveTab={setActiveTab} 
+        user={user}
       />
       
       <div className="flex-1 flex flex-col h-screen overflow-hidden">
@@ -186,6 +193,14 @@ function DashboardContent() {
         onClose={() => setIsAiPanelOpen(false)} 
         campaign={selectedCampaign} 
       />
+
+      {/* Fuerza de Cambio de Password - MODAL PERSISTENTE */}
+      {user?.requiresPasswordChange && (
+        <ForcePasswordChangeModal 
+          user={user} 
+          onSuccess={handlePasswordResetSuccess} 
+        />
+      )}
     </div>
   );
 }

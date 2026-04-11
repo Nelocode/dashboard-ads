@@ -60,7 +60,8 @@ router.post('/login', async (req: Request, res: Response): Promise<any> => {
         name: user.name, 
         role: user.role,
         skin: user.skin,
-        permissions
+        permissions,
+        requiresPasswordChange: user.requiresPasswordChange
       } 
     }));
   } catch (error) {
@@ -137,6 +138,56 @@ router.get('/callback/:platform', async (req: Request, res: Response, next: Next
     res.redirect(`/integrations?status=success&companyId=${companyId}`);
   } catch (error) {
     next(error);
+  }
+});
+
+// Change Password
+router.post('/change-password', async (req: Request, res: Response): Promise<any> => {
+  const { currentPassword, newPassword } = req.body;
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader) {
+    return res.status(401).json(ApiResponse.error('UNAUTHORIZED', 'No autorizado'));
+  }
+
+  try {
+    const token = authHeader.split(' ')[1];
+    const decoded = jwt.verify(token, SECRET) as any;
+    
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.id }
+    });
+
+    if (!user) {
+      return res.status(404).json(ApiResponse.error('NOT_FOUND', 'Usuario no encontrado'));
+    }
+
+    // Si viene de una clave temporal generada, podríamos saltarnos el check de currentPassword
+    // pero por seguridad es mejor pedirla si el usuario la conoce.
+    // Para simplificar el flujo de "primer login", permitiremos omitir currentPassword si requiresPasswordChange es true.
+    if (user.requiresPasswordChange) {
+       // Ok, solo pedimos la nueva
+    } else {
+      const isMatch = await bcrypt.compare(currentPassword, user.password);
+      if (!isMatch) {
+        return res.status(401).json(ApiResponse.error('INVALID_CREDENTIALS', 'La contraseña actual es incorrecta'));
+      }
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        password: hashedPassword,
+        requiresPasswordChange: false
+      }
+    });
+
+    return res.json(ApiResponse.success(null, 'Contraseña actualizada con éxito'));
+  } catch (error) {
+    console.error('Change password error:', error);
+    return res.status(500).json(ApiResponse.error('SERVER_ERROR', 'Error al cambiar la contraseña'));
   }
 });
 

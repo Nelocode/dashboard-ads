@@ -5,7 +5,16 @@ const api = axios.create({
   baseURL: '/api',
 });
 
-// Interceptor to handle standardized response structure
+// Request interceptor to add auth token
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('dashads-token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+// Response interceptor
 api.interceptors.response.use(
   (response) => {
     const { success, data, message } = response.data;
@@ -65,5 +74,9 @@ export const deleteUser = (id: string): Promise<any> => api.delete(`/users/${id}
 export const getCompanyDetails = (id: string): Promise<any> => api.get(`/companies/${id}`);
 
 export const deleteAccount = (id: string): Promise<any> => api.delete(`/companies/accounts/${id}`);
+
+// Auth Security
+export const changePassword = (data: { currentPassword?: string, newPassword: string }): Promise<any> => 
+  api.post('/auth/change-password', data);
 
 export default api;
