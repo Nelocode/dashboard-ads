@@ -69,7 +69,7 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
       return res.status(400).json(ApiResponse.error('VALIDATION_ERROR', 'El email ya está en uso'));
     }
     console.error('Error creating user:', error);
-    res.status(500).json(ApiResponse.error('SERVER_ERROR', 'Error al crear usuario'));
+    res.status(500).json(ApiResponse.error('SERVER_ERROR', `Error al crear usuario: ${error.message}`));
   }
 });
 
